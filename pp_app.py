@@ -70,6 +70,13 @@ if argo_file and production_plan_file:
             filtered_prev_pp = prev_pp[~prev_pp['Forecast ID'].isin(main_df['Forecast ID'])]
             combine_df = pd.concat([main_df, filtered_prev_pp])
 
+            #'Product Family' is the primary sort key, 'MFG Commit Date' is the secondary sort key
+            combine_df = combine_df.sort_values(by=['Product Family', 'Product','MFG Commit Date'], ascending=[True, True, True])
+
+            combine_df = combine_df[['Forecast ID','Slot ID/UTID', 'Build Qtr', 'Forecast Product', 'Fab Name', 'MFG Commit Date', 'Product Family', 'Product',
+                  'Opt Start', 'Opt WD','Opt End','Assy Start', 'Assy WD', 'Assy End', 'Int Start', 'Int WD', 'Int End',
+                  'Pack Start', 'Pack WD', 'Pack End']]
+
             # Load the original workbook and update the data
             wb = load_workbook(production_plan_file)
             ws = wb['PPD PCB']
