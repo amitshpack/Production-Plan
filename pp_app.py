@@ -102,8 +102,11 @@ if argo_file and production_plan_file:
 
             apply_common_style(ws, combine_df)
 
-            wb.save(output_path)
-            st.success(f"The updated file has been saved as {output_path}")
+            try:
+    wb.save(output_path)
+    st.success(f"The file has been successfully saved at {output_path}")
+except Exception as e:
+    st.error(f"Error saving the file: {e}")
 
         except Exception as e:
             st.error(f"An error occurred: {e}")
