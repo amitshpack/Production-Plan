@@ -115,6 +115,9 @@ if argo_file and production_plan_file:
                 temp_file_path = tmp_file.name
                 wb.save(temp_file_path)
 
+            # Indicate that the file is ready for download
+            st.success("The file has been updated successfully and is ready for download!")
+
             # Provide a download link to the user
             with open(temp_file_path, "rb") as file:
                 st.download_button(
