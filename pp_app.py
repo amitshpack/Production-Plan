@@ -81,7 +81,7 @@ if argo_file and production_plan_file:
             fill_green = PatternFill(start_color='d9ecd0', end_color='d9ecd0', fill_type='solid')
 
             def apply_common_style(ws, df):
-                start_row = 18
+                start_row = 17
                 start_col = 1
 
                 # Clear existing values
