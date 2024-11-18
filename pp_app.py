@@ -1,4 +1,5 @@
 import os
+import tempfile
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -14,7 +15,7 @@ st.markdown(
 )
 
 st.markdown(
-    "<p style='text-align: center; color: #4682B4;'>Upload the files, click 'Update File,' and the updated file will be saved locally.</p>",
+    "<p style='text-align: center; color: #4682B4;'>Upload the files, click 'Update File,' and the updated file will be available for download.</p>",
     unsafe_allow_html=True
 )
 
@@ -24,9 +25,6 @@ production_plan_file = st.file_uploader("Upload the Production Plan file", type=
 
 if argo_file and production_plan_file:
     st.success("Both files have been uploaded successfully!")
-
-    # Input for output folder path
-    output_folder = st.text_input("Enter the output folder path:", value=r"C:\Temp")
 
     # Process files on button click
     if st.button("Update File"):
@@ -73,8 +71,6 @@ if argo_file and production_plan_file:
             combine_df = pd.concat([main_df, filtered_prev_pp])
 
             # Load the original workbook and update the data
-            output_path = f"{output_folder}\\Copy of PPD PCB.xlsx"  # Save the updated file locally
-            
             wb = load_workbook(production_plan_file)
             ws = wb['PPD PCB']
 
@@ -107,20 +103,19 @@ if argo_file and production_plan_file:
 
             apply_common_style(ws, combine_df)
 
-            try:
-                # Check if the folder exists and save the workbook
-                if not os.path.exists(output_folder):
-                    st.error(f"The folder path '{output_folder}' does not exist. Please create the folder or choose another path.")
-                else:
-                    wb.save(output_path)
-                    
-                    # Verify the file is saved
-                    if os.path.isfile(output_path):
-                        st.success(f"The file has been successfully saved at {output_path}")
-                    else:
-                        st.error("The file was not saved successfully. Please check folder permissions or the file path.")
-            except Exception as e:
-                st.error(f"Error saving the file: {e}")
+            # Save the file to a temporary directory
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx") as tmp_file:
+                temp_file_path = tmp_file.name
+                wb.save(temp_file_path)
+
+            # Provide a download link to the user
+            with open(temp_file_path, "rb") as file:
+                st.download_button(
+                    label="Download Updated File",
+                    data=file,
+                    file_name="Updated_PPD_PCB.xlsx",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                )
 
         except Exception as e:
             st.error(f"An error occurred: {e}")
