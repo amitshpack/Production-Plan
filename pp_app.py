@@ -37,6 +37,9 @@ if argo_file and production_plan_file:
             main_df = raw_data[(raw_data["Division"] == 'PCB') &
                                (raw_data["Plan Product Type"] == 'Tool')]
             main_df['Build Product'] = main_df['Build Product'].replace({'AOI FINE HT': 'LUMINA HP', 'AOI FINE': 'LUMINA HS'})
+            main_df = main_df[~main_df['Build Product'].isin(['ULTRA DIMENSION 1000','VERIWIDE-A', 'VERIFINE-A', 'DIMENSION 6',
+                                                  'VERISMART-A', 'ULTRA VERIFINE-A', 'VERIWIDE', 'ULTRA DIMENSION 800 AOI', 'ULTRA DIMENSION 700 AOI', 
+                                                  'APEIRON 800SBS','TORNADO', 'PRECISE HR', 'TITANIUM 900', 'CASTOR TOOL','ULTRA PERFIX 500 P', 'VERISMART' ])]
             main_df['Build Qtr - Year'] = '20' + main_df['Build Qtr'].str[2:4]
             main_df['Build Qtr - Year'] = main_df['Build Qtr - Year'].astype(int)
             main_df['Build Qtr - Quarter'] = main_df['Build Qtr'].str[5]
