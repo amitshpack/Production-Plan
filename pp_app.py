@@ -36,6 +36,7 @@ if argo_file and production_plan_file:
             # Filter and process data from Argo
             main_df = raw_data[(raw_data["Division"] == 'PCB') &
                                (raw_data["Plan Product Type"] == 'Tool')]
+            main_df['Build Product'] = main_df['Build Product'].replace({'AOI FINE HT': 'LUMINA HP', 'AOI FINE': 'LUMINA HS'})
             main_df['Build Qtr - Year'] = '20' + main_df['Build Qtr'].str[2:4]
             main_df['Build Qtr - Year'] = main_df['Build Qtr - Year'].astype(int)
             main_df['Build Qtr - Quarter'] = main_df['Build Qtr'].str[5]
