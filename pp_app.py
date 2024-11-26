@@ -47,6 +47,7 @@ if argo_file and production_plan_file:
                 'ULTRA DIMENSION 700 AOI', 'APEIRON 800SBS', 'TORNADO', 
                 'PRECISE HR', 'TITANIUM 900', 'CASTOR TOOL', 'ULTRA PERFIX 500 P', 'VERISMART'
             ])]
+            main_df['Build Qtr'] =  main_df['Build Qtr'].astype(str)
             main_df['Build Qtr - Year'] = '20' + main_df['Build Qtr'].str[2:4]
             main_df['Build Qtr - Year'] = main_df['Build Qtr - Year'].astype(int)
             main_df['Build Qtr - Quarter'] = main_df['Build Qtr'].str[5]
