@@ -57,17 +57,17 @@ if argo_file and production_plan_file:
             end_year = current_year + (current_quarter + 8) // 4
             end_quarter = (current_quarter + 8) % 4
 
-           # Adjust end_quarter and end_year if end_quarter is 0
-           if end_quarter == 0:
+            # Adjust end_quarter and end_year if end_quarter is 0
+            if end_quarter == 0:
                end_quarter = 4
                end_year -= 1
 
-           # Filter for the current and future quarters within the next 8 quarters
-           main_df = main_df[
+            # Filter for the current and future quarters within the next 8 quarters
+            main_df = main_df[
                ((main_df['Build Qtr - Year'] == current_year) & (main_df['Build Qtr - Quarter'] >= current_quarter)) |
                ((main_df['Build Qtr - Year'] > current_year) & (main_df['Build Qtr - Year'] < end_year)) |
                ((main_df['Build Qtr - Year'] == end_year) & (main_df['Build Qtr - Quarter'] <= end_quarter))
-           ]
+            ]
 
 
             
