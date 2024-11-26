@@ -51,6 +51,8 @@ if argo_file and production_plan_file:
             main_df['Build Qtr - Year'] = '20' + main_df['Build Qtr'].str[2:4]
             main_df['Build Qtr - Year'] = main_df['Build Qtr - Year'].astype(int)
             main_df['Build Qtr - Quarter'] = main_df['Build Qtr'].str[5]
+            main_df['Build Qtr - Year'] = pd.to_numeric(main_df['Build Qtr - Year'], errors='coerce').fillna(0).astype(int)
+            main_df['Build Qtr - Quarter'] = pd.to_numeric(main_df['Build Qtr - Quarter'], errors='coerce').fillna(0).astype(int)
 
             current_year = datetime.now().year
             current_quarter = (datetime.now().month - 1) // 3 + 1
