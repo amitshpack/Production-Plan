@@ -38,7 +38,8 @@ if argo_file and production_plan_file:
                                (raw_data["Plan Product Type"] == 'Tool')]
             main_df['Build Product'] = main_df['Build Product'].replace({
                 'AOI FINE HT': 'LUMINA HP', 
-                'AOI FINE': 'LUMINA HS'
+                'AOI FINE': 'LUMINA HS',
+                'LUMINA HT':'LUMINA HP'
             })
             main_df['Build Complete'] = main_df['Build Complete'].replace({1:'YES',0:'NO'})
             main_df = main_df[~main_df['Build Product'].isin([
@@ -78,8 +79,8 @@ if argo_file and production_plan_file:
             # Read and process Production Plan file
             production_plan = pd.ExcelFile(production_plan_file)
             product_shortcuts = pd.read_excel(production_plan, sheet_name='Product Shortcuts')
-            workdays_df = pd.read_excel(production_plan, sheet_name='data for ppd')
-            prev_pp = pd.read_excel(production_plan, sheet_name='Production Plan', skiprows=16, header=0, usecols="A:AA")
+            workdays_df = pd.read_excel(production_plan, sheet_name='data for pp')
+            prev_pp = pd.read_excel(production_plan, sheet_name='Production Plan', skiprows=16, header=0, usecols="A:AI")
 
             main_df = pd.merge(main_df, product_shortcuts[['Build Product', 'Product']], on='Build Product', how='left')
             columns_to_add = [
@@ -131,8 +132,8 @@ if argo_file and production_plan_file:
 
             # Sort and select columns
             combine_df = combine_df.sort_values(by=['Product Family', 'Product', 'MFG Commit Date'], ascending=[True, True, True])
-            combine_df = combine_df[['Argo ID','Build Qtr', 'Slot ID/UTID', 'Sales Order', 'Forecast Product', 'Fab Name','Sold-To Name' , 'MFG Commit Date', 
-                         'Product Family', 'Product', 'Build Complete','Status',
+            combine_df = combine_df[['Argo ID','Build Qtr', 'Slot ID/UTID', 'Sales Order', 'Forecast Product', 'Fab Name','Machine Name' , 'MFG Commit Date', 
+                         'Product Family', 'Product', 'Build Complete','Status','Opt Resource','Int Resource','Assy Resource','Room','OH PD','Flex PD','Gripper PD','Chamber PD',
                          'Opt Start', 'Opt WD','Opt End','Assy Start', 'Assy WD', 'Assy End', 'Debug Start', 'Debug WD', 'Debug End', 'Int Start', 'Int WD', 'Int End',
                   'Pack Start', 'Pack WD', 'Pack End']]
 
@@ -154,9 +155,9 @@ if argo_file and production_plan_file:
                 start_col = 1
                 
                #deleting old values
-                skip_columns = [15, 18, 19, 21, 22, 24, 25, 27]
+                skip_columns = [23, 26, 27, 29, 30, 32,33, 35]
                 for i in range(start_row, 500):
-                    for j in range(1, 28):
+                    for j in range(1, 36):
                          if j not in skip_columns:
                              ws.cell(row=i, column=j).value = None
                              ws.cell(row=i, column=j).border = None
@@ -168,15 +169,15 @@ if argo_file and production_plan_file:
                             continue
                         cell = ws.cell(row=r_idx, column=c_idx)
                         cell.value = v
-                        if r_idx >= start_row and c_idx <= 27:
+                        if r_idx >= start_row and c_idx <= 35:
                             cell.border = border_style
                         cell.font = Font(name='Calibri', size=10)
                         cell.alignment = Alignment(horizontal='center')
                         if r_idx == start_row:
-                            if c_idx in [12, 13, 16]:
-                                cell.fill = fill_blue
-                            else:
+                            if 12 <= c_idx <= 21 or c_idx == 24 or c_idx == 7:
                                 cell.fill = fill_gray
+                            else:
+                                cell.fill = fill_blue
 
             apply_common_style(ws, combine_df)
 
