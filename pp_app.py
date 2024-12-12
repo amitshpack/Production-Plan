@@ -31,7 +31,7 @@ if argo_file and production_plan_file:
         try:
             # Read the uploaded Argo file
             argo = pd.ExcelFile(argo_file)
-            raw_data = pd.read_excel(argo, sheet_name='BP 20.10.24', header=1)
+            raw_data = pd.read_excel(argo, sheet_name='SAPUI5 Export', header=1)
 
             # Filter and process data from Argo
             main_df = raw_data[(raw_data["Division"] == 'PCB') &
