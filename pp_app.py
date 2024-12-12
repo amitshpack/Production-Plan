@@ -101,7 +101,7 @@ if argo_file and production_plan_file:
             # Convert and clean numeric columns
             main_df['Opt WD'] = np.ceil(pd.to_numeric(main_df['Opt'], errors='coerce')).fillna(0).astype(int)
             main_df['Assy WD'] = np.ceil(pd.to_numeric(main_df['Ass & Mech'], errors='coerce')).fillna(0).astype(int)
-            main_df['Debug'] = np.ceil(pd.to_numeric(main_df['Debug'], errors='coerce')).fillna(0).astype(int)
+            main_df['Debug WD'] = np.ceil(pd.to_numeric(main_df['Debug'], errors='coerce')).fillna(0).astype(int)
             main_df['Int WD'] = np.ceil(pd.to_numeric(main_df['Integration'], errors='coerce')).fillna(0).astype(int)
             main_df['Pack WD'] = np.ceil(pd.to_numeric(main_df['Pack'], errors='coerce')).fillna(0).astype(int)
             main_df.drop(columns=['Opt', 'Ass & Mech', 'Integration','Debug', 'Pack', 'Build Product'], inplace=True)
@@ -114,7 +114,7 @@ if argo_file and production_plan_file:
             columns_to_update = [
                 'Opt Start', 'Opt WD', 
                 'Assy Start', 'Assy WD', 
-                'Int WD','Pack WD', 'Debug WD',
+                'Int WD','Pack WD', 'Debug WD','Machine Name','OH PD', 'Flex PD', 'Gripper PD', 'Chamber PD', 
                 'Status'
             ]
 
