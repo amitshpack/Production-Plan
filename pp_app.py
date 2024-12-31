@@ -80,7 +80,7 @@ if argo_file and production_plan_file:
             production_plan = pd.ExcelFile(production_plan_file)
             product_shortcuts = pd.read_excel(production_plan, sheet_name='Product Shortcuts')
             workdays_df = pd.read_excel(production_plan, sheet_name='data for pp')
-            prev_pp = pd.read_excel(production_plan, sheet_name='Production Plan', skiprows=16, header=0, usecols="A:AI")
+            prev_pp = pd.read_excel(production_plan, sheet_name='Production Plan', skiprows=16, header=0, usecols="A:AJ")
 
             main_df = pd.merge(main_df, product_shortcuts[['Build Product', 'Product']], on='Build Product', how='left')
             columns_to_add = [
@@ -157,7 +157,7 @@ if argo_file and production_plan_file:
                #deleting old values
                 skip_columns = [23, 26, 27, 29, 30, 32,33, 35]
                 for i in range(start_row, 500):
-                    for j in range(1, 36):
+                    for j in range(1, 37):
                          if j not in skip_columns:
                              ws.cell(row=i, column=j).value = None
                              ws.cell(row=i, column=j).border = None
@@ -169,7 +169,7 @@ if argo_file and production_plan_file:
                             continue
                         cell = ws.cell(row=r_idx, column=c_idx)
                         cell.value = v
-                        if r_idx >= start_row and c_idx <= 35:
+                        if r_idx >= start_row and c_idx <= 36:
                             cell.border = border_style
                         cell.font = Font(name='Calibri', size=10)
                         cell.alignment = Alignment(horizontal='center')
