@@ -89,7 +89,8 @@ if argo_file and production_plan_file:
                 'Debug Start', 'Debug WD', 'Debug End', 
                 'Int Start', 'Int WD', 'Int End', 
                 'Pack Start', 'Pack WD', 'Pack End', 
-                'Status'
+                'Status','Machine Name','OH PD', 'Flex PD', 'Gripper PD', 'Chamber PD', 
+                 'Opt Resource', 'Int Resource', 'Assy Resource', 'Room'
             ]
 
             for column in columns_to_add:
@@ -114,8 +115,11 @@ if argo_file and production_plan_file:
             columns_to_update = [
                 'Opt Start', 'Opt WD', 
                 'Assy Start', 'Assy WD', 
-                'Int WD','Pack WD', 'Debug WD','Machine Name','OH PD', 'Flex PD', 'Gripper PD', 'Chamber PD', 
-                'Status'
+                'Int WD','Pack WD', 'Debug WD',
+                'Machine Name','OH PD', 'Flex PD',
+                'Gripper PD', 'Chamber PD', 
+                'Status', 'Opt Resource', 'Int Resource',
+                'Assy Resource', 'Room'
             ]
 
             # Find rows where Argo ID exists in both main_df and prev_pp
@@ -155,7 +159,7 @@ if argo_file and production_plan_file:
                 start_col = 1
                 
                #deleting old values
-                skip_columns = [23, 26, 27, 29, 30, 32,33, 35]
+                skip_columns = [22,25,26,27,28,29,31,32,34,35,36]
                 for i in range(start_row, 500):
                     for j in range(1, 37):
                          if j not in skip_columns:
@@ -174,7 +178,7 @@ if argo_file and production_plan_file:
                         cell.font = Font(name='Calibri', size=10)
                         cell.alignment = Alignment(horizontal='center')
                         if r_idx == start_row:
-                            if 12 <= c_idx <= 21 or c_idx == 24 or c_idx == 7:
+                            if 11 <= c_idx <= 20 or c_idx == 23 or c_idx == 6:
                                 cell.fill = fill_gray
                             else:
                                 cell.fill = fill_blue
@@ -194,7 +198,7 @@ if argo_file and production_plan_file:
                 st.download_button(
                     label="Download Updated File",
                     data=file,
-                    file_name="Updated_Production_Plan.xlsx",
+                    file_name="PCB GANTT.xlsx",
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                 )
 
