@@ -7,6 +7,8 @@ from datetime import datetime
 from openpyxl import load_workbook
 from openpyxl.styles import Border, Side, PatternFill, Alignment, Font
 from openpyxl.utils.dataframe import dataframe_to_rows
+from datetime import datetime
+
 
 # Application title and description
 st.markdown(
@@ -46,7 +48,8 @@ if argo_file and production_plan_file:
                 'ULTRA DIMENSION 1000', 'VERIWIDE-A', 'VERIFINE-A', 'DIMENSION 6',
                 'VERISMART-A', 'ULTRA VERIFINE-A', 'VERIWIDE', 'ULTRA DIMENSION 800 AOI', 
                 'ULTRA DIMENSION 700 AOI', 'APEIRON 800SBS', 'TORNADO', 
-                'PRECISE HR', 'TITANIUM 900', 'CASTOR TOOL', 'ULTRA PERFIX 500 P', 'VERISMART'
+                'PRECISE HR', 'TITANIUM 900', 'CASTOR TOOL', 'ULTRA PERFIX 500 P',
+                'VERISMART','AIM 600','ULTRA DIMENSION LV', 'APEIRON 800XT'
             ])]
             main_df['Build Qtr'] =  main_df['Build Qtr'].astype(str)
             main_df['Build Qtr - Year'] = '20' + main_df['Build Qtr'].str[2:4]
@@ -184,6 +187,11 @@ if argo_file and production_plan_file:
                                 cell.fill = fill_blue
 
             apply_common_style(ws, combine_df)
+            #apply current date and time
+            current_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+           # Write the current date and time to a specific cell, for example, cell A1
+            ws['AH2'] = f"Run Date: {current_datetime}"
+
 
             # Save the file to a temporary directory
             with tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx") as tmp_file:
