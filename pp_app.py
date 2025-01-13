@@ -182,9 +182,9 @@ if argo_file and production_plan_file:
                         cell.alignment = Alignment(horizontal='center')
                         if r_idx == start_row:
                             if 11 <= c_idx <= 20 or c_idx == 23 or c_idx == 6:
-                                cell.fill = fill_gray
+                                cell.fill = fill_green 
                             else:
-                                cell.fill = fill_blue
+                                cell.fill = fill_green 
 
             apply_common_style(ws, combine_df)
             #apply current date and time
