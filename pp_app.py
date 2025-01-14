@@ -148,6 +148,7 @@ if argo_file and production_plan_file:
             combine_df = pd.concat([main_df, filtered_prev_pp], ignore_index=True)
 
             # Sort and select columns
+            combine_df = combine_df.drop_duplicates(subset='Argo ID')
             combine_df = combine_df.sort_values(by=['Assy Start','Product Family', 'Product', 'MFG Commit Date'], ascending=[True,True, True, True])
             combine_df = combine_df[['Argo ID','Build Qtr', 'Slot ID/UTID', 'Forecast Product', 'Fab Name','Machine Name' , 
                          'Product Family', 'Product', 'Build Complete','Status','Opt Resource','Int Resource','Assy Resource','Room','OH PD','Flex PD','Gripper PD','Chamber PD',
@@ -168,7 +169,7 @@ if argo_file and production_plan_file:
             fill_blue = PatternFill(start_color='B8CCE4', end_color='c0ded9', fill_type='solid')
 
             def apply_common_style(ws, df):
-                start_row = 17
+                start_row = 18
                 start_col = 1
                 
                #deleting old values
