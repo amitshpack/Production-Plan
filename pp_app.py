@@ -85,7 +85,7 @@ if argo_file and production_plan_file:
 
             #Add Revenue column next to MFG column (MFG in the quarter- revenue -Y, if not then -N)
             main_df['MFG_year'] = main_df['MFG Commit Date'].dt.year
-            main_df'[MFG_quarter'] = (main_df['MFG Commit Date'].dt.month - 1) // 3 + 1
+            main_df['MFG_quarter'] = (main_df['MFG Commit Date'].dt.month - 1) // 3 + 1
             main_df['Revenue'] = 'N'
             main_df.loc[(main_df['MFG_year'] == current_year) & (main_df['MFG_quarter'] == current_quarter), 'Revenue'] = 'Y'
 
