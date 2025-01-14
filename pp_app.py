@@ -93,7 +93,7 @@ if argo_file and production_plan_file:
             production_plan = pd.ExcelFile(production_plan_file)
             product_shortcuts = pd.read_excel(production_plan, sheet_name='Product Shortcuts')
             workdays_df = pd.read_excel(production_plan, sheet_name='data for pp')
-            prev_pp = pd.read_excel(production_plan, sheet_name='Production Plan', skiprows=16, header=0, usecols="A:AJ")
+            prev_pp = pd.read_excel(production_plan, sheet_name='Production Plan', skiprows=17, header=0, usecols="A:AJ")
 
             main_df = pd.merge(main_df, product_shortcuts[['Build Product', 'Product']], on='Build Product', how='left')
             columns_to_add = [
@@ -148,7 +148,7 @@ if argo_file and production_plan_file:
             combine_df = pd.concat([main_df, filtered_prev_pp], ignore_index=True)
 
             # Sort and select columns
-            #combine_df = combine_df.drop_duplicates(subset='Argo ID')
+            combine_df = combine_df.drop_duplicates(subset='Argo ID')
             combine_df = combine_df.sort_values(by=['Assy Start','Product Family', 'Product', 'MFG Commit Date'], ascending=[True,True, True, True])
             combine_df = combine_df[['Argo ID','Build Qtr', 'Slot ID/UTID', 'Forecast Product', 'Fab Name','Machine Name' , 
                          'Product Family', 'Product', 'Build Complete','Status','Opt Resource','Int Resource','Assy Resource','Room','OH PD','Flex PD','Gripper PD','Chamber PD',
