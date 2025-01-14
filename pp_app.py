@@ -48,7 +48,7 @@ if argo_file and production_plan_file:
                 'ULTRA DIMENSION 1000', 'VERIWIDE-A', 'VERIFINE-A', 'DIMENSION 6',
                 'VERISMART-A', 'ULTRA VERIFINE-A', 'VERIWIDE', 'ULTRA DIMENSION 800 AOI', 
                 'ULTRA DIMENSION 700 AOI', 'APEIRON 800SBS', 'TORNADO', 
-                'PRECISE HR', 'TITANIUM 900', 'CASTOR TOOL', 'ULTRA PERFIX 500 P',
+                'TITANIUM 900', 'CASTOR TOOL', 'ULTRA PERFIX 500 P',
                 'VERISMART','AIM 600','ULTRA DIMENSION LV', 'APEIRON 800XT'
             ])]
 
