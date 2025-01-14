@@ -80,7 +80,7 @@ if argo_file and production_plan_file:
                ((main_df['Build Qtr - Year'] > current_year) & (main_df['Build Qtr - Year'] < end_year)) |
                ((main_df['Build Qtr - Year'] == end_year) & (main_df['Build Qtr - Quarter'] <= end_quarter)) |
                ((main_df['Ship Qtr - Year'] == current_year) & (main_df['Ship Qtr - Quarter'] >= current_quarter)) |
-               ((main_df['Ship Qtr - Year'] > current_year)
+               ((main_df['Ship Qtr - Year'] > current_year))
             ]
 
             #Add Revenue column next to MFG column (MFG in the quarter- revenue -Y, if not then -N)
