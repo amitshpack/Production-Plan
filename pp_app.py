@@ -51,12 +51,15 @@ if argo_file and production_plan_file:
                 'PRECISE HR', 'TITANIUM 900', 'CASTOR TOOL', 'ULTRA PERFIX 500 P',
                 'VERISMART','AIM 600','ULTRA DIMENSION LV', 'APEIRON 800XT'
             ])]
-            main_df['Build Qtr'] =  main_df['Build Qtr'].astype(str)
-            main_df['Build Qtr - Year'] = '20' + main_df['Build Qtr'].str[2:4]
-            main_df['Build Qtr - Year'] = main_df['Build Qtr - Year'].astype(int)
-            main_df['Build Qtr - Quarter'] = main_df['Build Qtr'].str[5]
-            main_df['Build Qtr - Year'] = pd.to_numeric(main_df['Build Qtr - Year'], errors='coerce').fillna(0).astype(int)
-            main_df['Build Qtr - Quarter'] = pd.to_numeric(main_df['Build Qtr - Quarter'], errors='coerce').fillna(0).astype(int)
+
+            column_to_reformat = ['Build Qtr','Ship Qtr']
+            for col in column_to_reformat:
+                 main_df[col] =  main_df[col].astype(str)
+                 main_df[col + ' - Year'] = '20' + main_df[col].str[2:4]
+                 main_df[col + ' - Year'] = main_df[col + ' - Year'].astype(int)
+                 main_df[col + ' - Quarter'] = main_df[col].str[5]
+                 main_df[col + ' - Year'] = pd.to_numeric(main_df[col + ' - Year'], errors='coerce').fillna(0).astype(int)
+                 main_df[col + ' - Quarter'] = pd.to_numeric(main_df[col + ' - Quarter'], errors='coerce').fillna(0).astype(int)
 
             current_year = datetime.now().year
             current_quarter = (datetime.now().month - 1) // 3 + 1
@@ -69,15 +72,22 @@ if argo_file and production_plan_file:
                end_quarter = 4
                end_year -= 1
 
-            # Filter for the current and future quarters within the next 8 quarters
+            # Filter:
+            # 1. For the current and future quarters within the next 8 quarters.
+            # 2. Systems with a build plan in the past that ship quarter did not past.
             main_df = main_df[
                ((main_df['Build Qtr - Year'] == current_year) & (main_df['Build Qtr - Quarter'] >= current_quarter)) |
                ((main_df['Build Qtr - Year'] > current_year) & (main_df['Build Qtr - Year'] < end_year)) |
-               ((main_df['Build Qtr - Year'] == end_year) & (main_df['Build Qtr - Quarter'] <= end_quarter))
+               ((main_df['Build Qtr - Year'] == end_year) & (main_df['Build Qtr - Quarter'] <= end_quarter)) |
+               ((main_df['Ship Qtr - Year'] == current_year) & (main_df['Ship Qtr - Quarter'] >= current_quarter)) |
+               ((main_df['Ship Qtr - Year'] > current_year)
             ]
 
-
-            
+            #Add Revenue column next to MFG column (MFG in the quarter- revenue -Y, if not then -N)
+            main_df[MFG_year] = main_df['MFG Commit Date'].dt.year
+            main_df[MFG_quarter] = (main_df['MFG Commit Date'].dt.month - 1) // 3 + 1
+            main_df['Revenue'] = 'N'
+            main_df.loc[(main_df['MFG_year'] == current_year) & (main_df['MFG_quarter'] == current_quarter), 'Revenue'] = 'Y'
 
             # Read and process Production Plan file
             production_plan = pd.ExcelFile(production_plan_file)
@@ -142,7 +152,7 @@ if argo_file and production_plan_file:
             combine_df = combine_df[['Argo ID','Build Qtr', 'Slot ID/UTID', 'Forecast Product', 'Fab Name','Machine Name' , 'MFG Commit Date', 
                          'Product Family', 'Product', 'Build Complete','Status','Opt Resource','Int Resource','Assy Resource','Room','OH PD','Flex PD','Gripper PD','Chamber PD',
                          'Opt Start', 'Opt WD','Opt End','Assy Start', 'Assy WD', 'Assy End', 'Debug Start', 'Debug WD', 'Debug End', 'Int Start', 'Int WD', 'Int End',
-                  'Pack Start', 'Pack WD', 'Pack End']]
+                  'Pack Start', 'Pack WD', 'Pack End', 'MFG Commit Date','Ship Qtr' ,'Revenue']]
 
             # Load the original workbook and update the data
             wb = load_workbook(production_plan_file)
@@ -162,7 +172,7 @@ if argo_file and production_plan_file:
                 start_col = 1
                 
                #deleting old values
-                skip_columns = [22,25,26,28,29,31,32,34,35,36]
+                skip_columns = [21, 24, 25, 27, 28, 30, 31, 33]
                 for i in range(start_row, 500):
                     for j in range(1, 37):
                          if j not in skip_columns:
@@ -181,15 +191,15 @@ if argo_file and production_plan_file:
                         cell.font = Font(name='Calibri', size=10)
                         cell.alignment = Alignment(horizontal='center')
                         if r_idx == start_row:
-                            if 11 <= c_idx <= 20 or c_idx == 23 or c_idx == 6:
+                            if 10 <= c_idx <= 19 or c_idx == 22 or c_idx == 6:
                                 cell.fill = fill_gray 
                             else:
                                 cell.fill = fill_blue 
 
             apply_common_style(ws, combine_df)
             #apply current date and time
-            current_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-           # Write the current date and time to a specific cell, for example, cell A1
+            current_datetime = datetime.now().strftime("%Y-%m-%d %H:%M")
+           # Write the current date and time to a specific cell, for example, cell AH2
             ws['AH2'] = f"Run Date: {current_datetime}"
 
 
