@@ -149,7 +149,7 @@ if argo_file and production_plan_file:
 
             # Sort and select columns
             combine_df = combine_df.sort_values(by=['Assy Start','Product Family', 'Product', 'MFG Commit Date'], ascending=[True,True, True, True])
-            combine_df = combine_df[['Argo ID','Build Qtr', 'Slot ID/UTID', 'Forecast Product', 'Fab Name','Machine Name' , 'MFG Commit Date', 
+            combine_df = combine_df[['Argo ID','Build Qtr', 'Slot ID/UTID', 'Forecast Product', 'Fab Name','Machine Name' , 
                          'Product Family', 'Product', 'Build Complete','Status','Opt Resource','Int Resource','Assy Resource','Room','OH PD','Flex PD','Gripper PD','Chamber PD',
                          'Opt Start', 'Opt WD','Opt End','Assy Start', 'Assy WD', 'Assy End', 'Debug Start', 'Debug WD', 'Debug End', 'Int Start', 'Int WD', 'Int End',
                   'Pack Start', 'Pack WD', 'Pack End', 'MFG Commit Date','Ship Qtr' ,'Revenue']]
