@@ -199,7 +199,7 @@ if argo_file and production_plan_file:
 
             apply_common_style(ws, combine_df)
             #apply current date and time
-            current_datetime = datetime.now().strftime("%Y-%m-%d %H:%M")
+            current_datetime = datetime.now().strftime("%Y-%m-%d")
            # Write the current date and time to a specific cell, for example, cell AH2
             ws['AH2'] = f"Run Date: {current_datetime}"
 
