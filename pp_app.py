@@ -132,7 +132,7 @@ if argo_file and production_plan_file:
                 'Machine Name','OH PD', 'Flex PD',
                 'Gripper PD', 'Chamber PD', 
                 'Status', 'Opt Resource', 'Int Resource',
-                'Assy Resource', 'Room','Build Qtr','MFG Commit Date'
+                'Assy Resource', 'Room'
             ]
 
             # Find rows where Argo ID exists in both main_df and prev_pp
