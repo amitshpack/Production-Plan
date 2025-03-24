@@ -88,12 +88,13 @@ if argo_file and production_plan_file:
             main_df['MFG_quarter'] = (main_df['MFG Commit Date'].dt.month - 1) // 3 + 1
             main_df['Revenue'] = 'N'
             main_df.loc[(main_df['MFG_year'] == current_year) & (main_df['MFG_quarter'] == current_quarter), 'Revenue'] = 'Y'
+            
 
             # Read and process Production Plan file
             production_plan = pd.ExcelFile(production_plan_file)
             product_shortcuts = pd.read_excel(production_plan, sheet_name='Product Shortcuts')
             workdays_df = pd.read_excel(production_plan, sheet_name='data for pp')
-            prev_pp = pd.read_excel(production_plan, sheet_name='Production Plan', header=17, usecols="A:AJ")
+            prev_pp = pd.read_excel(production_plan, sheet_name='Production Plan', header=17, usecols="A:AK")
           
             main_df = pd.merge(main_df, product_shortcuts[['Build Product', 'Product']], on='Build Product', how='left')
             columns_to_add = [
