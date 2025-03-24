@@ -103,7 +103,7 @@ if argo_file and production_plan_file:
                 'Int Start', 'Int WD', 'Int End', 
                 'Pack Start', 'Pack WD', 'Pack End', 
                 'Status','Machine Name','OH PD', 'Flex PD', 'Gripper PD', 'Chamber PD', 
-                 'Opt Resource', 'Int Resource', 'Assy Resource', 'Room'
+                 'Opt Resource', 'Int Resource', 'Assy Resource', 'Room','Pack Needed'
             ]
 
             for column in columns_to_add:
@@ -153,7 +153,7 @@ if argo_file and production_plan_file:
             combine_df = combine_df[['Argo ID','Build Qtr', 'Slot ID/UTID', 'Forecast Product', 'Fab Name','Machine Name' , 
                          'Product Family', 'Product', 'Build Complete','Status','Opt Resource','Int Resource','Assy Resource','Room','OH PD','Flex PD','Gripper PD','Chamber PD',
                          'Opt Start', 'Opt WD','Opt End','Assy Start', 'Assy WD', 'Assy End', 'Debug Start', 'Debug WD', 'Debug End', 'Int Start', 'Int WD', 'Int End',
-                  'Pack Start', 'Pack WD', 'Pack End', 'MFG Commit Date','Ship Qtr' ,'Revenue']]
+                  'Pack Start', 'Pack WD', 'Pack End', 'Pack Needed', 'MFG Commit Date','Ship Qtr' ,'Revenue']]
 
             # Load the original workbook and update the data
             wb = load_workbook(production_plan_file)
@@ -173,9 +173,9 @@ if argo_file and production_plan_file:
                 start_col = 1
                 
                #deleting old values
-                skip_columns = [21, 24, 25, 27, 28, 30, 31, 33]
+                skip_columns = [21, 24, 25, 27, 28, 30, 31, 33, 34]
                 for i in range(start_row, 500):
-                    for j in range(1, 37):
+                    for j in range(1, 38):
                          if j not in skip_columns:
                              ws.cell(row=i, column=j).value = None
                              ws.cell(row=i, column=j).border = None
@@ -187,7 +187,7 @@ if argo_file and production_plan_file:
                             continue
                         cell = ws.cell(row=r_idx, column=c_idx)
                         cell.value = v
-                        if r_idx >= start_row and c_idx <= 36:
+                        if r_idx >= start_row and c_idx <= 37:
                             cell.border = border_style
                         cell.font = Font(name='Calibri', size=10)
                         cell.alignment = Alignment(horizontal='center')
