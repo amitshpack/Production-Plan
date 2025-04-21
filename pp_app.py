@@ -174,7 +174,7 @@ if argo_file and production_plan_file:
                 start_col = 1
                 
                #deleting old values
-                skip_columns = [21, 24, 25, 27, 28, 30, 31, 33, 34]
+                skip_columns = [19, 21, 22,  24, 25, 27, 28, 30, 31, 33, 34]
                 for i in range(start_row, 500):
                     for j in range(1, 38):
                          if j not in skip_columns:
