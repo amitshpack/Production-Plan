@@ -3,6 +3,7 @@ import tempfile
 import streamlit as st
 import pandas as pd
 import numpy as np
+import datetime
 from datetime import datetime
 from openpyxl import load_workbook
 from openpyxl.styles import Border, Side, PatternFill, Alignment, Font
@@ -212,13 +213,18 @@ if argo_file and production_plan_file:
 
             # Indicate that the file is ready for download
             st.success("The file has been updated successfully and is ready for download!")
+            # Get today's date
+            today_date = datetime.datetime.today().strftime('%Y-%m-%d')
+
+            # Create the new file name with today's date
+            new_file_name = f"PCB_GANTT_{today_date}.xlsx"
 
             # Provide a download link to the user
             with open(temp_file_path, "rb") as file:
                 st.download_button(
                     label="Download Updated File",
                     data=file,
-                    file_name="PCB GANTT.xlsx",
+                    file_name=new_file_name,
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                 )
 
