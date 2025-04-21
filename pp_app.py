@@ -8,7 +8,6 @@ from datetime import datetime
 from openpyxl import load_workbook
 from openpyxl.styles import Border, Side, PatternFill, Alignment, Font
 from openpyxl.utils.dataframe import dataframe_to_rows
-from datetime import datetime
 
 
 # Application title and description
