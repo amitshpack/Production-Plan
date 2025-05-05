@@ -128,7 +128,7 @@ if argo_file and production_plan_file:
                          'Product Family', 'Product', 'Build Complete', 'MFG Commit Date','Ship Qtr' ,'Revenue']
             
            # Step 3: Update these columns in prev_pp using values from main_df (based on matching Argo ID)
-            main_df = main_df.drop_duplicates(suset='Argo ID', keep='last')
+            main_df = main_df.drop_duplicates(subset='Argo ID', keep='last')
             for col in columns_to_update:
                 prev_pp.loc[prev_pp['Argo ID'].isin(main_df['Argo ID']), col] = \
                 prev_pp.loc[prev_pp['Argo ID'].isin(main_df['Argo ID']), 'Argo ID'].map(
