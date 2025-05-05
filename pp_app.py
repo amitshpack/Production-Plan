@@ -120,34 +120,26 @@ if argo_file and production_plan_file:
             main_df['Pack WD'] = np.ceil(pd.to_numeric(main_df['Pack'], errors='coerce')).fillna(0).astype(int)
             main_df.drop(columns=['Opt', 'Ass & Mech', 'Integration','Debug', 'Pack', 'Build Product'], inplace=True)
 
-            # Step 1: Filter rows in prev_pp based on Argo ID not in main_df
+            # Step 1: Drop rows without Argo ID from the previous plan (just to be safe)
             prev_pp = prev_pp.dropna(subset=['Argo ID'])
-            filtered_prev_pp = prev_pp[~prev_pp['Argo ID'].isin(main_df['Argo ID'])]
 
-            # Step 2: Update specific columns for matching Argo IDs
-            columns_to_update = [
-                'Opt Start', 'Opt WD', 
-                'Assy Start', 'Assy WD', 
-                'Int WD','Pack WD', 'Debug WD',
-                'Machine Name','OH PD', 'Flex PD',
-                'Gripper PD', 'Chamber PD', 
-                'Status', 'Opt Resource', 'Int Resource',
-                'Assy Resource', 'Room'
-            ]
-
-            # Find rows where Argo ID exists in both main_df and prev_pp
-            common_argo_ids = main_df['Argo ID'].isin(prev_pp['Argo ID'])
-            matching_rows_prev_pp = prev_pp[prev_pp['Argo ID'].isin(main_df['Argo ID'])]
-
+            # Step 2: Define columns that may have changed in the new Argo file
+            columns_to_update = ['Build Qtr', 'Slot ID/UTID', 'Forecast Product', 'Fab Name',
+                         'Product Family', 'Product', 'Build Complete', 'MFG Commit Date','Ship Qtr' ,'Revenue']
+            
+           # Step 3: Update these columns in prev_pp using values from main_df (based on matching Argo ID)
             for col in columns_to_update:
-                main_df.loc[common_argo_ids, col] = main_df.loc[common_argo_ids, 'Argo ID'].map(
-                    matching_rows_prev_pp.set_index('Argo ID')[col]
-                )
+                prev_pp.loc[prev_pp['Argo ID'].isin(main_df['Argo ID']), col] = \
+                prev_pp.loc[prev_pp['Argo ID'].isin(main_df['Argo ID']), 'Argo ID'].map(
+                    main_df.set_index('Argo ID')[col]
+         )
 
-            # Step 3: Concatenate main_df and filtered_prev_pp
-            combine_df = pd.concat([ filtered_prev_pp,main_df], ignore_index=True)
+            # Step 4: Get only the new records from main_df that are not in prev_pp
+            new_only = main_df[~main_df['Argo ID'].isin(prev_pp['Argo ID'])]
+            
+            # Step 5: Combine the updated previous plan with the new entries (old first, then new)
+            combine_df = pd.concat([prev_pp, new_only], ignore_index=True)
 
-            # Sort and select columns
             #combine_df = combine_df.drop_duplicates(subset='Argo ID')
             #combine_df = combine_df.sort_values(by=['Assy Start','Product Family', 'Product', 'MFG Commit Date'], ascending=[True,True, True, True])
             combine_df = combine_df[['Argo ID','Build Qtr', 'Slot ID/UTID', 'Forecast Product', 'Fab Name','Machine Name' , 
