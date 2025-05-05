@@ -148,7 +148,7 @@ if argo_file and production_plan_file:
             combine_df = pd.concat([ filtered_prev_pp,main_df], ignore_index=True)
 
             # Sort and select columns
-            combine_df = combine_df.drop_duplicates(subset='Argo ID')
+            #combine_df = combine_df.drop_duplicates(subset='Argo ID')
             #combine_df = combine_df.sort_values(by=['Assy Start','Product Family', 'Product', 'MFG Commit Date'], ascending=[True,True, True, True])
             combine_df = combine_df[['Argo ID','Build Qtr', 'Slot ID/UTID', 'Forecast Product', 'Fab Name','Machine Name' , 
                          'Product Family', 'Product', 'Build Complete','Status','Opt Resource','Int Resource','Assy Resource','Room','OH PD','Flex PD','Gripper PD','Chamber PD',
