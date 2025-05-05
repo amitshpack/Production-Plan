@@ -145,7 +145,7 @@ if argo_file and production_plan_file:
                 )
 
             # Step 3: Concatenate main_df and filtered_prev_pp
-            combine_df = pd.concat([main_df, filtered_prev_pp], ignore_index=True)
+            combine_df = pd.concat([ filtered_prev_pp,main_df], ignore_index=True)
 
             # Sort and select columns
             combine_df = combine_df.drop_duplicates(subset='Argo ID')
