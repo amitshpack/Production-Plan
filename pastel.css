@@ -1,0 +1,22 @@
+body {
+    background-color: #fefcfb;
+    font-family: 'Calibri', sans-serif;
+}
+
+h1, h2, h3 {
+    color: #996699;
+}
+
+.stButton > button {
+    background-color: #ffd6e0;
+    color: #333;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 8px 16px;
+}
+
+.stDataFrame {
+    background-color: #ffffff;
+    border-radius: 6px;
+}
