@@ -152,13 +152,13 @@ if argo_file and production_plan_file:
             ws = wb['Production Plan']
 
             # Apply styles and update the worksheet
-            border_style = Border(left=Side(border_style='thin', color='00000000'),
-                                  right=Side(border_style='thin', color='00000000'),
-                                  top=Side(border_style='thin', color='00000000'),
-                                  bottom=Side(border_style='thin', color='00000000'))
-            fill_green = PatternFill(start_color='00d9ecd0', end_color='00d9ecd0', fill_type='solid')
-            fill_gray = PatternFill(start_color='00F2F2F2', end_color='00D3D3D3', fill_type='solid')
-            fill_blue = PatternFill(start_color='00B8CCE4', end_color='00c0ded9', fill_type='solid')
+            border_style = Border(left=Side(border_style='thin', color='000000'),
+                                  right=Side(border_style='thin', color='000000'),
+                                  top=Side(border_style='thin', color='000000'),
+                                  bottom=Side(border_style='thin', color='000000'))
+            fill_green = PatternFill(start_color='d9ecd0', end_color='d9ecd0', fill_type='solid')
+            fill_gray = PatternFill(start_color='F2F2F2', end_color='D3D3D3', fill_type='solid')
+            fill_blue = PatternFill(start_color='B8CCE4', end_color='c0ded9', fill_type='solid')
 
             def apply_common_style(ws, df):
                 start_row = 18
