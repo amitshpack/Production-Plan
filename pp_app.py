@@ -196,7 +196,7 @@ if argo_file and production_plan_file:
             ws['AH15'] = f"{current_datetime}"
 
             # Apply coloring to non existant ARGO ID - update 29.07.25
-            highlight = PatternFill(start_color = "#BFBFBF",end_color = "#BFBFBF",fill_type ="solid")
+            highlight = PatternFill(start_color = "BFBFBF",end_color = "BFBFBF",fill_type ="solid")
             ws.cell(19,1).fill = highlight
 
 
