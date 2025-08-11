@@ -11,7 +11,7 @@ from openpyxl.utils.dataframe import dataframe_to_rows
 
 # Application title and description
 st.markdown(
-    "<h1 style='text-align: center; color: #4B0082;'>Production Plan Data File updater</h1>",
+    "<h1 style='text-align: center; color: #4B0082;'>Production Plan Data file updater</h1>",
     unsafe_allow_html=True
 )
 
