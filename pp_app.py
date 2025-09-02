@@ -11,7 +11,7 @@ from openpyxl.utils.dataframe import dataframe_to_rows
 
 # Application title and description
 st.markdown(
-    "<h1 style='text-align: center; color: #4B0082;'>Production Plan Data File updater</h1>",
+    "<h1 style='text-align: center; color: #4B0082;'>Production Plan Data file updater</h1>",
     unsafe_allow_html=True
 )
 
@@ -121,28 +121,28 @@ if argo_file and production_plan_file:
             main_df.drop(columns=['Opt', 'Ass & Mech', 'Integration','Debug', 'Pack', 'Build Product'], inplace=True)
 
             # Step 1: Drop rows without Argo ID from the previous plan (just to be safe)
-            prev_pp = prev_pp.dropna(subset=['Argo ID'])
+            prev_pp = prev_pp.dropna(subset=['Slot ID/UTID'])
 
             # Step 2: Define columns that may have changed in the new Argo file
             columns_to_update = ['Build Qtr', 'Slot ID/UTID', 'Forecast Product', 'Fab Name',
                          'Product Family', 'Product', 'Build Complete', 'MFG Commit Date','Ship Qtr' ,'Revenue']
             
            # Step 3: Update these columns in prev_pp using values from main_df (based on matching Argo ID)
-            main_df = main_df.drop_duplicates(subset='Argo ID', keep='last')
+            main_df = main_df.drop_duplicates(subset='Slot ID/UTID', keep='last')
             for col in columns_to_update:
-                prev_pp.loc[prev_pp['Argo ID'].isin(main_df['Argo ID']), col] = \
-                prev_pp.loc[prev_pp['Argo ID'].isin(main_df['Argo ID']), 'Argo ID'].map(
-                    main_df.set_index('Argo ID')[col]
+                prev_pp.loc[prev_pp['Slot ID/UTID'].isin(main_df['Slot ID/UTID']), col] = \
+                prev_pp.loc[prev_pp['Slot ID/UTID'].isin(main_df['Slot ID/UTID']), 'Slot ID/UTID'].map(
+                    main_df.set_index('Slot ID/UTID')[col]
          )
 
             # Step 4: Get only the new records from main_df that are not in prev_pp
-            new_only = main_df[~main_df['Argo ID'].isin(prev_pp['Argo ID'])]
+            new_only = main_df[~main_df['Slot ID/UTID'].isin(prev_pp['Slot ID/UTID'])]
             
             # Step 5: Combine the updated previous plan with the new entries (old first, then new)
             combine_df = pd.concat([prev_pp, new_only], ignore_index=True)
 
-            combine_df = combine_df.drop_duplicates(subset='Argo ID')
-            combine_df = combine_df[['Argo ID','Build Qtr', 'Slot ID/UTID', 'Forecast Product', 'Fab Name','Machine Name' , 
+            combine_df = combine_df.drop_duplicates(subset='Slot ID/UTID')
+            combine_df = combine_df[['Slot ID/UTID','Argo ID','Build Qtr','Forecast Product', 'Fab Name','Machine Name' , 
                          'Product Family', 'Product', 'Build Complete','Status','Opt Resource','Int Resource','Assy Resource','Room','OH PD','Flex PD','Gripper PD','Chamber PD',
                          'Opt Start', 'Opt WD','Opt End','Assy Start', 'Assy WD', 'Assy End', 'Debug Start', 'Debug WD', 'Debug End', 'Int Start', 'Int WD', 'Int End',
                   'Pack Start', 'Pack WD', 'Pack End', 'Pack Needed', 'MFG Commit Date','Ship Qtr' ,'Revenue']]
