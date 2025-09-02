@@ -11,7 +11,7 @@ from openpyxl.utils.dataframe import dataframe_to_rows
 
 # Application title and description
 st.markdown(
-    "<h1 style='text-align: center; color: #4B0082;'>Production Plan Data file updater</h1>",
+    "<h1 style='text-align: center; color: #4B0082;'>Production Plan Data File updater</h1>",
     unsafe_allow_html=True
 )
 
@@ -124,7 +124,7 @@ if argo_file and production_plan_file:
             prev_pp = prev_pp.dropna(subset=['Slot ID/UTID'])
 
             # Step 2: Define columns that may have changed in the new Argo file
-            columns_to_update = ['Build Qtr', 'Slot ID/UTID', 'Forecast Product', 'Fab Name',
+            columns_to_update = ['Build Qtr', 'Argo ID', 'Forecast Product', 'Fab Name',
                          'Product Family', 'Product', 'Build Complete', 'MFG Commit Date','Ship Qtr' ,'Revenue']
             
            # Step 3: Update these columns in prev_pp using values from main_df (based on matching Argo ID)
