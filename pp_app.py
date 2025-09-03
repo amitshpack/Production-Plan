@@ -73,13 +73,17 @@ if argo_file and production_plan_file:
 
             # Filter:
             # 1. For the current and future quarters within the next 8 quarters.
-            # 2. Systems with a build plan in the past that ship quarter did not past.
+            # 2. Only systems planned to be built from the current quarter onward.
             main_df = main_df[
-               ((main_df['Build Qtr - Year'] == current_year) & (main_df['Build Qtr - Quarter'] >= current_quarter)) |
-               ((main_df['Build Qtr - Year'] > current_year) & (main_df['Build Qtr - Year'] < end_year)) |
-               ((main_df['Build Qtr - Year'] == end_year) & (main_df['Build Qtr - Quarter'] <= end_quarter)) |
-               ((main_df['Ship Qtr - Year'] == current_year) & (main_df['Ship Qtr - Quarter'] >= current_quarter)) |
-               ((main_df['Ship Qtr - Year'] > current_year))
+              (
+                (main_df['Build Qtr - Year'] > current_year) | 
+                ((main_df['Build Qtr - Year'] == current_year) & (main_df['Build Qtr - Quarter'] >= current_quarter))
+              )
+              &
+              (
+                (main_df['Build Qtr - Year'] < end_year) |
+                ((main_df['Build Qtr - Year'] == end_year) & (main_df['Build Qtr - Quarter'] <= end_quarter))
+              )
             ]
 
             #Add Revenue column next to MFG column (MFG in the quarter- revenue -Y, if not then -N)
