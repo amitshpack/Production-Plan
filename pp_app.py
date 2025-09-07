@@ -11,7 +11,7 @@ from openpyxl.utils.dataframe import dataframe_to_rows
 
 # Application title and description
 st.markdown(
-    "<h1 style='text-align: center; color: #4B0082;'>Production Plan Data File updater</h1>",
+    "<h1 style='text-align: center; color: #4B0082;'>Production Plan Data File Updater</h1>",
     unsafe_allow_html=True
 )
 
@@ -74,16 +74,9 @@ if argo_file and production_plan_file:
             # Filter:
             # 1. For the current and future quarters within the next 8 quarters.
             # 2. Only systems planned to be built from the current quarter onward.
-            main_df = main_df[
-              (
-                (main_df['Build Qtr - Year'] > current_year) | 
-                ((main_df['Build Qtr - Year'] == current_year) & (main_df['Build Qtr - Quarter'] >= current_quarter))
-              )
-              &
-              (
-                (main_df['Build Qtr - Year'] < end_year) |
-                ((main_df['Build Qtr - Year'] == end_year) & (main_df['Build Qtr - Quarter'] <= end_quarter))
-              )
+            main_df = main_df[((main_df['Build Qtr - Year'] == current_year)&(main_df['Build Qtr - Quarter'] >= current_quarter)) |
+            ((main_df['Build Qtr - Year'] > current_year)&(main_df['Build Qtr - Year'] < end_year)) |
+            ((main_df['Build Qtr - Year'] == end_year)&(main_df['Build Qtr - Quarter'] <= end_quarter)) 
             ]
 
             #Add Revenue column next to MFG column (MFG in the quarter- revenue -Y, if not then -N)
