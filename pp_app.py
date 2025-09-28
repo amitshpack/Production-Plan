@@ -11,7 +11,7 @@ from openpyxl.utils.dataframe import dataframe_to_rows
 
 # Application title and description
 st.markdown(
-    "<h1 style='text-align: center; color: #4B0082;'>Production Plan Data File Updater</h1>",
+    "<h1 style='text-align: center; color: #4B0082;'>Production Plan Data File updater</h1>",
     unsafe_allow_html=True
 )
 
@@ -80,7 +80,13 @@ if argo_file and production_plan_file:
                         
             #Delete other lines:
             main_df = main_df[condition]
-
+ 
+            # Read and process Production Plan file
+            production_plan = pd.ExcelFile(production_plan_file)
+            product_shortcuts = pd.read_excel(production_plan, sheet_name='Product Shortcuts')
+            workdays_df = pd.read_excel(production_plan, sheet_name='data for pp')
+            prev_pp = pd.read_excel(production_plan, sheet_name='Production Plan', header=17, usecols="A:AK")
+            
             prev_pp['Build Qtr']=prev_pp['Build Qtr'].astype(str)
             prev_pp['Build Qtr - Year']='20' + prev_pp['Build Qtr'].str[2:4]
             prev_pp['Build Qtr - Year']=prev_pp['Build Qtr - Year'].astype(int)
@@ -99,12 +105,6 @@ if argo_file and production_plan_file:
             main_df['Revenue'] = 'N'
             main_df.loc[(main_df['MFG_year'] == current_year) & (main_df['MFG_quarter'] == current_quarter), 'Revenue'] = 'Y'
             
-
-            # Read and process Production Plan file
-            production_plan = pd.ExcelFile(production_plan_file)
-            product_shortcuts = pd.read_excel(production_plan, sheet_name='Product Shortcuts')
-            workdays_df = pd.read_excel(production_plan, sheet_name='data for pp')
-            prev_pp = pd.read_excel(production_plan, sheet_name='Production Plan', header=17, usecols="A:AK")
           
             main_df = pd.merge(main_df, product_shortcuts[['Build Product', 'Product']], on='Build Product', how='left')
             columns_to_add = [
