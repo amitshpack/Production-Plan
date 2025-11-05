@@ -11,7 +11,7 @@ from openpyxl.utils.dataframe import dataframe_to_rows
 
 # Application title and description
 st.markdown(
-    "<h1 style='text-align: center; color: #4B0082;'>Production Plan Data File updater</h1>",
+    "<h1 style='text-align: center; color: #4B0082;'>Production Plan Data File Updater</h1>",
     unsafe_allow_html=True
 )
 
@@ -74,30 +74,9 @@ if argo_file and production_plan_file:
             # Filter:
             # 1. For the current and future quarters within the next 8 quarters.
             # 2. Only systems planned to be built from the current quarter onward.
-            condition = (((main_df['Build Qtr - Year'] == current_year)&(main_df['Build Qtr - Quarter'] >= current_quarter)) |
+            main_df = [(((main_df['Build Qtr - Year'] == current_year)&(main_df['Build Qtr - Quarter'] >= current_quarter)) |
             ((main_df['Build Qtr - Year'] > current_year)&(main_df['Build Qtr - Year'] < end_year)) |
-            ((main_df['Build Qtr - Year'] == end_year)&(main_df['Build Qtr - Quarter'] <= end_quarter))) 
-                        
-            #Delete other lines:
-            main_df = main_df[condition]
- 
-            # Read and process Production Plan file
-            production_plan = pd.ExcelFile(production_plan_file)
-            product_shortcuts = pd.read_excel(production_plan, sheet_name='Product Shortcuts')
-            workdays_df = pd.read_excel(production_plan, sheet_name='data for pp')
-            prev_pp = pd.read_excel(production_plan, sheet_name='Production Plan', header=17, usecols="A:AK")
-            
-            prev_pp['Build Qtr']=prev_pp['Build Qtr'].astype(str)
-            prev_pp['Build Qtr - Year']='20' + prev_pp['Build Qtr'].str[2:4]
-            prev_pp['Build Qtr - Year']=prev_pp['Build Qtr - Year'].astype(int)
-            prev_pp['Build Qtr - Quarter']=pd.to_numeric(prev_pp['Build Qtr'].str[5], errors='coerce').fillna(0).astype(int)
-            condition_prev_pp=(
-                ((prev_pp['Build Qtr - Year']==current_year)&(prev_pp['Build Qtr - Quarter']>=current_quarter)) |
-                ((prev_pp['Build Qtr - Year']>current_year)&(prev_pp['Build Qtr - Year']<end_year)) |
-                ((prev_pp['Build Qtr - Year']==end_year)&(prev_pp['Build Qtr - Quarter']<=end_quarter)) 
-            )
-
-            prev_pp=prev_pp[condition_prev_pp]
+            ((main_df['Build Qtr - Year'] == end_year)&(main_df['Build Qtr - Quarter'] <= end_quarter))]
 
             #Add Revenue column next to MFG column (MFG in the quarter- revenue -Y, if not then -N)
             main_df['MFG_year'] = main_df['MFG Commit Date'].dt.year
